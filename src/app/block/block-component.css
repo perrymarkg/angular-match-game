@@ -1,0 +1,11 @@
+.block .content {
+    display:inline-block;
+    width:100%;
+    height:100px;
+    background:#eeeeee;
+    box-shadow: 1px 1px #eeeeee;
+    border-radius: 5px;
+    overflow: hidden;
+    margin:20px 0;
+    position: relative;
+}
