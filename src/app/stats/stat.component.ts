@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ClickService } from '../services/click.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ScoreService } from '../services/score.service';
 import { ConfigService } from '../services/config.service';
 
 @Component({
@@ -7,19 +7,28 @@ import { ConfigService } from '../services/config.service';
     templateUrl: './stat.html',
     styleUrls: ['./stat.css']
 })
-export class StatComponent {
+export class StatComponent implements OnInit {
     
-    moves;
-    score;
+    win: boolean = false;
+    time: any;
+    moves: number;
+    score: string;
 
-    constructor(private clickService: ClickService){
-        this.clickService.moves.subscribe( data => {
-            this.moves = data;
+    constructor(private scoreService: ScoreService){
+       
+    }
+
+    ngOnInit(){
+
+        this.scoreService.scoreEmitter.subscribe( data => {
+            this.score = data.score
+            this.moves = data.moves
         })
-       this.clickService.scoreEmitter.subscribe( data => {
-            this.score = data;
-       })
-       this.score = '0 of ' + this.clickService.getScoreTotal() + ' found';
+
+        this.scoreService.timerEmitter.subscribe( t => {
+            this.time = this.scoreService.convertTimeFormat(t);
+        })
+        
     }
 
 }

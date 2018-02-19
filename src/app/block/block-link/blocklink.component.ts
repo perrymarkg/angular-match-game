@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Renderer2 } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
-import { ClickService } from '../../services/click.service';
-import { race } from 'q';
+import { ScoreService } from '../../services/score.service';
 
 @Component({
     selector: 'app-block-link',
@@ -14,13 +13,17 @@ export class BlockLinkComponent implements OnInit {
     classString: string;
     @Input() index: number;
 
-    constructor(private configService: ConfigService, private clickService: ClickService){
-        this.clickService.resetLink.subscribe( data => {
+    constructor(private configService: ConfigService, private scoreService: ScoreService){
+        
+    }
+
+    ngOnInit(){
+        this.scoreService.resetEmitter.subscribe( data => {
             if( this.classes.includes('active') ) {
                 this.resetClass();
             }
         })
-        this.clickService.matchFound.subscribe( data => {
+        this.scoreService.matchFoundEmitter.subscribe( data => {
             if( this.index === data.index1 || this.index === data.index2 ){
                 this.setMatched();
             }
@@ -28,9 +31,7 @@ export class BlockLinkComponent implements OnInit {
         this.setClassString();
     }
 
-    ngOnInit(){
-        
-    }
+    
 
     setClassString(){
         this.classString = this.classes.toString().replace(new RegExp(',', 'g'), ' ');
@@ -53,20 +54,19 @@ export class BlockLinkComponent implements OnInit {
     }
 
     showHideIcon(){
-
        
-        if( this.classes.includes('matched') )
+        if( this.classes.includes('matched') || this.classes.includes('active') )
             return;
         
-        if( this.clickService.getClick() >= 2 ){
-            this.clickService.toggleReset();
+        if( this.scoreService.getClick() >= 2 ){
+            this.scoreService.toggleReset();
         }
 
         this.removeClass('fa-circle');
         this.classes.push('active', this.configService.getGridArray(this.index))
         
         this.setClassString();
-        this.clickService.setSelectedBlocks(this.index)
+        this.scoreService.setSelectedBlocks(this.index)
     }
 
 

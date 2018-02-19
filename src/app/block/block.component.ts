@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../services/config.service';
-import { ClickService } from '../services/click.service';
+import { ScoreService } from '../services/score.service';
 
 
 @Component({
@@ -8,17 +8,21 @@ import { ClickService } from '../services/click.service';
     templateUrl: './block.html',
     styleUrls: ['./block-component.css']
 })
-export class BlockComponent {
+export class BlockComponent implements OnInit {
     
-    blockSize;
     gridArray;
 
     constructor(
-        private configService: ConfigService, 
-        private clickService: ClickService
+        private configService: ConfigService,
+        private scoreService: ScoreService
     ){
-        this.blockSize = this.configService.getBlockSize();
-        this.gridArray = this.configService.getGridArray(false);
+        
+    }
+
+    ngOnInit(){
+        this.configService.generateGridArray();
+        this.scoreService.setScoreTotal();
+        this.gridArray = this.configService.getGridArray(false);        
     }
 
 

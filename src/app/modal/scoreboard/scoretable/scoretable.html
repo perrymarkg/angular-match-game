@@ -1,0 +1,18 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th>Moves</th>
+            <th>Time</th>
+            <th>Play Date</th>        
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let score of scores">
+            <td>{{ score.name }}</td>
+            <td>{{ score.moves }}</td>
+            <td>{{ convertTimeFormat(score.time) }}</td>
+            <td>{{ score.date | date: 'yyyy-MM-dd hh:mm a'}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,23 @@
+.wrapper .container {
+    position: relative;
+    z-index: 10;
+    padding-top:30px;
+}
+.wrapper .modal-backdrop {
+    z-index: 5;
+}
+.wrapper .modal-backdrop.show {
+    z-index: 15;
+}
+.form-control {
+    outline: none;
+}
+.form-control.invalid {
+    border-color: #dc3545;
+    background:rgba(220, 53, 69, 0.2);
+    color:#ffffff;
+}
+select.form-control.invalid option {
+    background:#ffffff;
+    color:#495057;
+}

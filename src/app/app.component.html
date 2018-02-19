@@ -1,8 +1,36 @@
-<div class="container">
-  <div class="col-md-12">
-    <app-stat></app-stat>
-    <div class="blocks-wrapper">
-        <app-block></app-block>
-    </div>    
+<div class="wrapper">
+  <div class="container">
+    <div  class="col-md-12">
+      <h1>Angular Match Game</h1>
+      <p><strong>Objective: </strong> Find all the matching pairs by clicking on the blocks. Start by choosing the number of pieces.</p>
+      <button class="btn btn-primary btn-lg" (click)="showScoreBoard()">Scoreboard</button>
+      <hr>
+      <div *ngIf="selectedPiece === 0" class="form-group row">
+        <h3 class="col-md-1 col-form-label">Name: </h3>
+        <div class="col-md-3">
+          <input type="text" [(ngModel)]="playerName" class="form-control" #nameSelector>
+        </div>
+        <h3 class="col-md-1 col-form-label">Pieces</h3>
+        <div class="col-md-3">
+          <select class="form-control" #pieceSelector>
+            <option value="0" selected></option>
+            <option *ngFor="let piece of pieces" value="{{ piece }}">{{ piece }}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" (click)="setPiece(nameSelector.value, pieceSelector.value)">Go</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="selectedPiece">
+      <app-stat></app-stat>
+      <hr>
+      <div class="blocks-wrapper">
+          <app-block></app-block>
+      </div>    
+    </div>
   </div>
+  <app-modal-scoreboard *ngIf="showScoreModal" (closeEmitter)="closeScoreBoard()"></app-modal-scoreboard>
+  <app-modal-playagain *ngIf="showWinModal" [matches]="matches" [moves]="moves" [time]="time" (playAgainEmitter)="restart()"></app-modal-playagain>
+  <div [ngClass]="{'modal-backdrop': true, 'fade': true, show: showBackdrop}" ></div>
 </div>
